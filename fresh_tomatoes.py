@@ -151,13 +151,13 @@ def create_movie_titles_content(cont):
     for item in cat["content"]:
         # Extract the youtube ID from the url
         youtube_id_match = re.search(r'(?<=v=)[^&#]+', item.trailer)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer)
+        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', item.trailer)
         trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
 
         # Append the title for the movie with its content filled in
         content += movie_title_content.format(
             movie_title=item.title,
-            poster_image_url=item.poster_image_url,
+            poster_image_url=item.poster,
             trailer_youtube_id=trailer_youtube_id
         )
         content += info_content.format(

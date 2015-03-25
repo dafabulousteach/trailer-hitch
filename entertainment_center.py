@@ -1,4 +1,4 @@
-import media 
+from media import Video 
 import imdb
 import fresh_tomatoes
 
@@ -20,8 +20,8 @@ class TvShow(Video):
 
 	def __init__(self, title, trailer):
 		Video.__init__(self, title, trailer)
-		self.season = show.dat['seasons']
-		self.runtime = show.dat['runtimes'][0]
+		self.seasons = self.dat['seasons']
+		self.runtime = self.dat['runtimes'][0]
 
 	def show_info(self):
 		return ("<p><strong>Title: </strong>" + str(self.title) + "</p>"
@@ -30,7 +30,7 @@ class TvShow(Video):
                 "<p><strong>Runtime: </strong>" + str(self.runtime) + "</p>")
 
 
-toy_story = media.Movie("Toy Story", "https://www.youtube.com/watch?v=KYz2wyBy3kc")
+toy_story = Movie("Toy Story", "https://www.youtube.com/watch?v=KYz2wyBy3kc")
 
 avatar = Movie("Avatar", "https://www.youtube.com/watch?v=5PSNL1qE6VY")
 
@@ -42,7 +42,7 @@ hunger_games = Movie("Hunger Games", "https://www.youtube.com/watch?v=mfmrPu43DF
 
 ratatouille = Movie("Ratatouille", "https://www.youtube.com/watch?v=niD-jahFURU")
 
-the_office = TvShow("The Office", "http://theoffice.so/0645.html")
+the_office = TvShow("The Office", "https://www.youtube.com/watch?v=YrblkMd-KMs")
 
 movies = {"name": "Movies", 
 			"content":[toy_story, avatar, school_of_rock, goodfellas, hunger_games, ratatouille]}
