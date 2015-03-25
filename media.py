@@ -1,6 +1,6 @@
 import webbrowser
 import imdb
-
+import fresh_tomatoes
 
 def get_info(title):
 		i = imdb.IMDb()
@@ -10,11 +10,10 @@ def get_info(title):
 		return match
 
 class Video():
-	def __init__(self, title, trailer_youtube):
+	def __init__(self, title, trailer):
 		self.title = title
-		print("Parent constructor called")
 		self.dat = get_info(title)
 		self.storyline = self.dat['plot outline']
 		self.poster = self.dat['full-size cover url']
 		self.genre = self.dat['genre'][0]
-		self.trailer = trailer_youtube
+		self.trailer = trailer

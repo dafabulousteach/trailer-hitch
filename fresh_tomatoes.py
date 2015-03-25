@@ -32,11 +32,11 @@ main_page_head = '''
             width: 100%;
             height: 100%;
         }
-        .movie-tile {
+        .movie-title {
             margin-bottom: 20px;
             padding-top: 20px;
         }
-        .movie-tile:hover {
+        .movie-title:hover {
             background-color: #EEE;
             cursor: pointer;
         }
@@ -62,7 +62,7 @@ main_page_head = '''
             $("#trailer-video-container").empty();
         });
         // Start playing the video whenever the trailer modal is opened
-        $(document).on('click', '.movie-tile', function (event) {
+        $(document).on('click', '.movie-title', function (event) {
             var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
             var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
@@ -111,7 +111,7 @@ main_page_content = '''
       </div>
     </div>
     <div class="container">
-      {movie_tiles}
+      {movie_titles}
     </div>
   </body>
 </html>
@@ -122,37 +122,49 @@ category_content = '''
 </div>
 '''
 # A single movie entry html template
-movie_tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
+movie_title_content = '''
+<div class="col-md-6 col-lg-4 movie-title text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
-    <h2>{title}</h2>
+    <h3>{movie_title}</h3>
+    <a role="button" href="#{trailer_youtube_id}" class="infos btn btn-warning" rel="text-gallery">More Info</a>
+    <a role="button" class="trails btn btn-danger fancybox fancybox.iframe" href="http://www.youtube.com/embed/{trailer_youtube_id}?autoplay=1&wmode=opaque" rel="video-gallery">Watch Trailer</a>
 </div>
 '''
 
-def create_movie_tiles_content(movies):
+info_content = '''
+
+<div class="text-center" id={trailer_youtube_id} style="display:none">
+    <img src="{poster_image_url}" width="330" height="513">
+    <br>
+    {cont}
+</div>
+
+'''
+
+def create_movie_titles_content(cont):
     # The HTML content for this section of the page
     content = ''
-    """for cat in cont:
-          content += category_content.format(title = cat["name"])"""
-
-    # for item in cat["content"]:
-    for movie in movies:
+    for cat in cont:
+          content += category_content.format(
+            title = cat["name"]
+            )
+    for item in cat["content"]:
         # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
+        youtube_id_match = re.search(r'(?<=v=)[^&#]+', item.trailer)
+        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', movie.trailer)
         trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
 
-        # Append the tile for the movie with its content filled in
-        content += movie_tile_content.format(
-            movie_title=movie.title,
-            poster_image_url=movie.poster_image_url,
+        # Append the title for the movie with its content filled in
+        content += movie_title_content.format(
+            movie_title=item.title,
+            poster_image_url=item.poster_image_url,
             trailer_youtube_id=trailer_youtube_id
         )
-        """content += info_content.format(
+        content += info_content.format(
               cont = item.show_info(),
               trailer_youtube_id = trailer_youtube_id,
-              poster_image_url = item.poster_image_url
-          )"""
+              poster_image_url = item.poster
+          )
         
     return content
 
@@ -160,8 +172,8 @@ def open_movies_page(movies):
   # Create or overwrite the output file
   output_file = open('fresh_tomatoes.html', 'w')
 
-  # Replace the placeholder for the movie tiles with the actual dynamically generated content
-  rendered_content = main_page_content.format(movie_tiles=create_movie_tiles_content(movies))
+  # Replace the placeholder for the movie titles with the actual dynamically generated content
+  rendered_content = main_page_content.format(movie_titles=create_movie_titles_content(movies))
 
   # Output the file
   output_file.write(main_page_head + rendered_content)
