@@ -44,11 +44,16 @@ ratatouille = Movie("Ratatouille", "https://www.youtube.com/watch?v=niD-jahFURU"
 
 the_office = TvShow("The Office", "https://www.youtube.com/watch?v=YrblkMd-KMs")
 
+broad_city = TvShow("Broad City", "https://www.youtube.com/watch?v=3tDN5DYsNk0")
+
+house_of_cards = TvShow("House of Cards", "https://www.youtube.com/watch?v=sU9QTLXYCCc")
+
+
 movies = {"name": "Movies", 
 			"content":[toy_story, avatar, school_of_rock, goodfellas, hunger_games, ratatouille]}
 
 tv_shows = {"name": "TV Shows",
-			"content": [the_office]}
+			"content": [the_office, broad_city, house_of_cards]}
 
 cont = [movies]
 
