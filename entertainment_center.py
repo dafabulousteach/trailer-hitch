@@ -55,7 +55,7 @@ movies = {"name": "Movies",
 tv_shows = {"name": "TV Shows",
 			"content": [the_office, broad_city, house_of_cards]}
 
-cont = [movies]
+cont = [movies, tv_shows]
 
 fresh_tomatoes.open_movies_page(cont)
 

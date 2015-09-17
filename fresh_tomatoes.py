@@ -144,30 +144,22 @@ info_content = '''
 
 def create_movie_titles_content(cont):
     # The HTML content for this section of the page
-    content = ''
-    for cat in cont:
-          content += category_content.format(
-            title = cat["name"]
-            )
-    for item in cat["content"]:
-        # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', item.trailer)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', item.trailer)
-        trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
+  content = ''
+  for cat in cont:
+    content += category_content.format(
+    title = cat["name"])
 
-        # Append the title for the movie with its content filled in
-        content += movie_title_content.format(
-            movie_title=item.title,
-            poster_image_url=item.poster,
-            trailer_youtube_id=trailer_youtube_id
-        )
-        content += info_content.format(
-              cont = item.show_info(),
-              trailer_youtube_id = trailer_youtube_id,
-              poster_image_url = item.poster
-          )
+    for item in cat["content"]:
+      # Extract the youtube ID from the url
+      youtube_id_match = re.search(r'(?<=v=)[^&#]+', item.trailer)
+      youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', item.trailer)
+      trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
+
+      # Append the title for the movie with its content filled in
+      content += movie_title_content.format(movie_title=item.title, poster_image_url=item.poster,trailer_youtube_id=trailer_youtube_id)
+      content += info_content.format(cont = item.show_info(), trailer_youtube_id = trailer_youtube_id, poster_image_url = item.poster)
         
-    return content
+  return content
 
 def open_movies_page(movies):
   # Create or overwrite the output file
